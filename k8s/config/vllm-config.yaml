@@ -1,0 +1,11 @@
+# Параметры `vllm serve` (ключи = флаги CLI без "--"). Модель и served-model-name задаются в model.env.
+# Меняются без пересборки образа: правка файла -> `kubectl apply -k k8s/` -> новый под с новым конфигом.
+host: 0.0.0.0
+port: 8000
+dtype: bfloat16                   # на CPU без поддержки bf16 поставьте float32
+max-model-len: 4096
+max-num-seqs: 4
+enforce-eager: true              # без компиляции всего графа: старт на CPU в разы быстрее
+kv-cache-memory-bytes: 1073741824 # 1 GiB под KV-кэш: хватает на 4 x 4096 токенов этой модели
+enable-log-requests: true         # факт запроса логируется, содержимое вырезает фильтр в образе
+enable-log-outputs: true          # факт завершения генерации (finish_reason) без текста ответа

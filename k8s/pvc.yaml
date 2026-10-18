@@ -1,0 +1,11 @@
+# Кэш весов модели: initContainer скачивает их сюда при первом запуске,
+# при рестартах пода vLLM читает веса локально, без обращения к сети.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vllm-models
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 10Gi
